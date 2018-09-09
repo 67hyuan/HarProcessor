@@ -1,0 +1,77 @@
+<div>
+    <h1>Please upload a har file.</h1>
+    <form>
+      <input type="file" name="myInputFile" value="Input file value" (change)="onFileSelected($event)">      
+    </form>
+    <br>
+</div>
+<div>  
+  <form>
+    <button type="button" (click)="calcTotalResponseTime()">Total Response Time (ms)</button> <input type="text" [value]="totalRspTime" *ngIf="totalRspTime > 0" readonly="readonly">
+    <br/><br/>
+    <button type="button" (click)="calcAverageEntryTime()">Average Entry Time(ms)</button> <input type="text" [value]="averageEntryTime" *ngIf="averageEntryTime > 0" readonly="readonly">
+    <br/><br/>
+    <button type="button" (click)="calcAverageRequestTime()">Average Request Sent Time (ms)</button> <input type="text" [value]="averageRqstSentTime" *ngIf="averageRqstSentTime > 0" readonly="readonly">
+    <br/><br/>
+    <button type="button" (click)="calcAverageWaitTime()">Average Request Waiting Time (ms)</button> <input type="text" [value]="averageRqstWaitTime" *ngIf="averageRqstWaitTime > 0" readonly="readonly">
+  </form>
+</div>
+
+<div style="text-align:left;width:500px;" *ngIf="harLog">
+  <h3>
+      <span>{{"HAR log version = " + harLog.version + "; creator.name = " + harLog.creator.name + ". creator.version = " + harLog.creator.version}}</span><br>
+      <span>{{ "total pages: " + harLog.pages.length }}</span>
+  </h3>
+
+  <table *ngIf="harLog.pages">
+      <tr>
+          <th>startedDateTime</th>
+          <th>ID</th>
+          <th>Title</th>
+          <th>ContentLoadTime</th>
+          <th>TotalLoadTime</th>
+      </tr>
+      <tr *ngFor="let page of harLog.pages">
+          <td>{{page.startedDateTime}}</td>
+          <td>{{page.id}}</td>
+          <td>{{page.title}}</td>
+          <td>{{page.pageTimings.onContentLoad}}</td>
+          <td>{{page.pageTimings.onLoad}}</td>
+      </tr>
+  </table>
+
+  <h3>
+    <span>{{ "Total entries: " + harLog.entries.length }}</span>
+  </h3>
+
+  <table *ngIf="harLog.entries">
+    <tr>
+      <th>Start Time</th>
+      <th>Total Time</th>
+      <th>Request Method</th>
+      <th>Response Status</th>
+      <th>Blocked</th>
+      <th>Dns</th>
+      <th>Ssl</th>
+      <th>Connect</th>
+      <th>Send</th>
+      <th>Wait</th>
+      <th>Receive</th>
+      <th>Blocked Que</th>
+    </tr>
+    <tr *ngFor="let entry of harLog.entries">
+      <td>{{entry.startedDateTime}}</td>
+      <td>{{entry.time}}</td>
+      <td>{{entry.request.method}}</td>
+      <td>{{entry.response.status}}</td>
+      <td>{{entry.timings.blocked}}</td>
+      <td>{{entry.timings.dns}}</td>
+      <td>{{entry.timings.ssl}}</td>
+      <td>{{entry.timings.connect}}</td>
+      <td>{{entry.timings.send}}</td>
+      <td>{{entry.timings.wait}}</td>
+      <td>{{entry.timings.receive}}</td>
+      <td>{{entry.timings._blocked_queueing}}</td>
+    </tr>
+  </table>
+</div>

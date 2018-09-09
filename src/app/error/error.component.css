@@ -1,0 +1,9 @@
+.errttl{
+    color: black;
+    font-weight: bold;
+}
+
+.errmsg{
+    color: red;
+    font-weight: bolder;
+}
