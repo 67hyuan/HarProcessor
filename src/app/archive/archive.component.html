@@ -1,20 +1,81 @@
 <div>
-    <h1>Please upload a har file.</h1>
+    <h3>Please upload a har file.</h3>
     <form>
       <input type="file" name="myInputFile" value="Input file value" (change)="onFileSelected($event)">      
     </form>
     <br>
 </div>
-<div>  
-  <form>
-    <button type="button" (click)="calcTotalResponseTime()">Total Response Time (ms)</button> <input type="text" [value]="totalRspTime" *ngIf="totalRspTime > 0" readonly="readonly">
-    <br/><br/>
-    <button type="button" (click)="calcAverageEntryTime()">Average Entry Time(ms)</button> <input type="text" [value]="averageEntryTime" *ngIf="averageEntryTime > 0" readonly="readonly">
-    <br/><br/>
-    <button type="button" (click)="calcAverageRequestTime()">Average Request Sent Time (ms)</button> <input type="text" [value]="averageRqstSentTime" *ngIf="averageRqstSentTime > 0" readonly="readonly">
-    <br/><br/>
-    <button type="button" (click)="calcAverageWaitTime()">Average Request Waiting Time (ms)</button> <input type="text" [value]="averageRqstWaitTime" *ngIf="averageRqstWaitTime > 0" readonly="readonly">
-  </form>
+
+<div>
+  <table id="pageEntryMetric" *ngIf="harLog">
+    <tr>
+      <th>Metrics</th>
+      <th>Total Time</th>
+      <th>Average Time</th>
+    </tr>
+    <tr id="contentLoadTime">
+        <td><button type="button" (click)="calcPageContentLoadTime()">Content Load Time (ms)</button></td>
+        <td><input type="text" [value]="totalPageContentLoadTime" readonly="readonly"></td>
+        <td><input type="text" [value]="avgPageContentLoadTime" readonly="readonly"></td>
+    </tr>
+    <tr id="pageLoadTime">
+        <td><button type="button" (click)="calcPageLoadTime()">Page Load Time (ms)</button></td>
+        <td><input type="text" [value]="totalPageLoadTime" readonly="readonly"></td>
+        <td><input type="text" [value]="avgPageLoadTime" readonly="readonly"></td>
+    </tr>
+    <tr id="entryTime">
+      <td><button type="button" (click)="calcEntryTime()">Entry Time (ms)</button></td>
+      <td><input type="text" [value]="totalEntryTime" readonly="readonly"></td>
+      <td><input type="text" [value]="averageEntryTime" readonly="readonly"></td>
+    </tr>
+    <tr id="rqstSendTime">
+      <td><button type="button" (click)="calcRequestSendTime()">Request Send Time (ms)</button></td>
+      <td><input type="text" [value]="totalRqstSendTime" readonly="readonly"></td>
+      <td><input type="text" [value]="averageRqstSendTime" readonly="readonly"></td>
+    </tr>
+    <tr id="rqstWaitTime">
+      <td><button type="button" (click)="calcWaitTime()">Request Waiting Time (ms)</button></td>
+      <td><input type="text" [value]="totalRqstSendTime" readonly="readonly"></td>
+      <td><input type="text" [value]="averageRqstWaitTime" readonly="readonly"></td>
+    </tr>
+    <tr id="blockTime">
+        <td><button type="button" (click)="calcBlockTime()">Connection Block Time (ms)</button></td>
+        <td><input type="text" [value]="totalBlockTime" readonly="readonly"></td>
+        <td><input type="text" [value]="averageBlockTime" readonly="readonly"></td>
+    </tr>
+    <tr id="dnsTime">
+        <td><button type="button" (click)="calcDnsTime()">DNS Resolution time (ms)</button></td>
+        <td><input type="text" [value]="totalDnsTime" readonly="readonly"></td>
+        <td><input type="text" [value]="averageDnsTime" readonly="readonly"></td>
+    </tr>
+    <tr id="sslTime">
+        <td><button type="button" (click)="calcSslTime()">SSL/TLS Negotiation (ms)</button></td>
+        <td><input type="text" [value]="totalSslTime" *ngIf=" totalSslTime > 0" readonly="readonly"></td>
+        <td><input type="text" [value]="averageSslTime" *ngIf=" averageSslTime > 0" readonly="readonly"></td>
+    </tr>    
+    <tr id="connTime">
+        <td><button type="button" (click)="calcConnectTime()">TCP Connection Time (ms)</button></td>
+        <td><input type="text" [value]="totalConnectTime" readonly="readonly"></td>
+        <td><input type="text" [value]="averageConnectTime" readonly="readonly"></td>
+    </tr>
+
+  </table>
+
+  <table *ngIf="harLog">
+    <tr>
+      <th>Metrics</th>
+      <th>Calculation</th>
+    </tr>
+    <tr>
+      <td><button type="button" (click)="calcTotalResponseTime()">Total Response Time (ms)</button></td>
+      <td><input type="text" [value]="totalRspTime" readonly="readonly"></td>
+    </tr>    
+    <tr>
+        <td><button type="button" (click)="calcTotalUrLRedirect()">Total URL Redirect Count</button></td>
+        <td><input type="text" [value]="totalUrlRedirect" readonly="readonly"></td>
+    </tr>
+
+  </table> 
 </div>
 
 <div style="text-align:left;width:500px;" *ngIf="harLog">

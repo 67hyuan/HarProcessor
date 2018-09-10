@@ -27,6 +27,7 @@ export class DataService {
           //process file and update harLog
           if(this.harLog != null && this.harLog != undefined){
             delete this.harLog;
+            this.harLog = null;
           }
           this.harLog = new HarLog();
 
@@ -62,9 +63,16 @@ export class DataService {
               e.request.url = entry.request.url;
               e.request.httpVersion = entry.request.httpVersion;
 
+              for(let rqsh of entry.request.headers){
+                e.request.headers.push(rqsh);
+              }              
+
               e.response.status = Number(entry.response.status);
               e.response.statusText = entry.response.statusText;
               e.response.content.size = Number(entry.response.content.size);
+              for(let rsph of entry.response.headers){
+                e.response.headers.push(rsph);
+              }
 
               e.timings.blocked = Number(entry.timings.blocked);
               e.timings.dns = Number(entry.timings.dns);

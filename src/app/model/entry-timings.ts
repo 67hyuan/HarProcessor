@@ -17,6 +17,7 @@ export class EntryTimings {
         this.wait = 0; 
         this.receive = 0; 
         this.ssl = 0;
+        this._blocked_queueing = 0;
         this.comment = "";
     }
 }
