@@ -6,7 +6,6 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ArchiveComponent } from './archive/archive.component';
-//import { AnalyticsComponent } from './analytics/analytics.component';
 import { ErrorComponent } from './error/error.component';
 import { ErrorService } from './error.service';
 
@@ -14,7 +13,6 @@ import { ErrorService } from './error.service';
   declarations: [
     AppComponent,
     ArchiveComponent,
-    //AnalyticsComponent,
     ErrorComponent,    
   ],
   imports: [

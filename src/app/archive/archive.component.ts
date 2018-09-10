@@ -124,12 +124,11 @@ export class ArchiveComponent implements OnInit {
         }
         this.dynamicEntries = new Array<Entry>();
 
-        console.log("Before topNumOfLoadTime: " + this.topNumOfLoadTime);
         this.harLog.entries.sort(function(a, b){return b.time - a.time});
         if(this.topNumOfLoadTime > this.harLog.entries.length){
           this.topNumOfLoadTime = this.harLog.entries.length;
         }
-        console.log("After topNumOfLoadTime: " + this.topNumOfLoadTime);
+        
         for (let i = 0; i < this.topNumOfLoadTime; i++){
             this.dynamicEntries.push(this.harLog.entries[i]);
         }
