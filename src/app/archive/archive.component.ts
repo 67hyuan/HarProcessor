@@ -3,8 +3,6 @@ import { Router } from '@angular/router';
 
 import { DataService } from '../data.service';
 import { ErrorService } from '../error.service';
-import { Page } from '../model/page';
-import { Entry } from '../model/entry';
 import { HarLog } from '../model/har-log';
 
 @Component({
@@ -119,7 +117,7 @@ export class ArchiveComponent implements OnInit {
 
         let count = 0;
         for(let i = 0; i < this.harLog.pages.length; i++){
-          if(this.harLog.pages[i].pageTimings.onContentLoad >= 0){
+          if(this.harLog.pages[i].pageTimings.onContentLoad != null && this.harLog.pages[i].pageTimings.onContentLoad >= 0){
             this.totalPageContentLoadTime += this.harLog.pages[i].pageTimings.onContentLoad;
             count++;
           }
@@ -129,6 +127,11 @@ export class ArchiveComponent implements OnInit {
           this.avgPageContentLoadTime = Number((this.totalPageContentLoadTime / count).toFixed(2));
           this.totalPageContentLoadTime = Number(this.totalPageContentLoadTime.toFixed(2));
         }
+        else{
+          this.totalPageContentLoadTime = null;
+          this.avgPageContentLoadTime = null;
+          alert("Sorry page content load time is not applicable here!");
+        }
     }
     catch(e){
       this.handleError(e.message);
@@ -136,7 +139,7 @@ export class ArchiveComponent implements OnInit {
   }
 
   /*
-  //
+  //Calculate total and average page load time
   */
   calcPageLoadTime(){
   try{
@@ -145,7 +148,7 @@ export class ArchiveComponent implements OnInit {
 
       let count = 0;
         for(let i = 0; i < this.harLog.pages.length; i++){
-          if(this.harLog.pages[i].pageTimings.onLoad >= 0){
+          if(this.harLog.pages[i].pageTimings.onLoad != null && this.harLog.pages[i].pageTimings.onLoad >= 0){
             this.totalPageLoadTime += this.harLog.pages[i].pageTimings.onLoad;
             count++;
           }
@@ -154,6 +157,11 @@ export class ArchiveComponent implements OnInit {
         if(count > 0){
           this.avgPageLoadTime = Number((this.totalPageLoadTime / count).toFixed(2));
           this.totalPageLoadTime = Number(this.totalPageLoadTime.toFixed(2));
+        }
+        else{
+          this.totalPageLoadTime = null;
+          this.avgPageLoadTime = null;
+          alert("Sorry total page load time is not applicable here!");
         }
   }
   catch(e){
@@ -223,7 +231,7 @@ export class ArchiveComponent implements OnInit {
 
         let count = 0;
         for(let i = 0; i < this.harLog.entries.length; i++){
-          if(this.harLog.entries[i].timings.send > 0){
+          if(this.harLog.entries[i].timings.send >= 0){
             this.totalRqstSendTime += this.harLog.entries[i].timings.send;
             count++;
           }
@@ -232,6 +240,11 @@ export class ArchiveComponent implements OnInit {
         if(count > 0){
           this.averageRqstSendTime = Number((this.totalRqstSendTime / count).toFixed(2));
           this.totalRqstSendTime = Number(this.totalRqstSendTime.toFixed(2));
+        }
+        else{
+          this.totalRqstSendTime = null;
+          this.averageRqstSendTime = null;
+          alert("Sorry, sending HTTP request to the server time is not applicable here!");
         }
     }
     catch(e){
@@ -259,6 +272,11 @@ export class ArchiveComponent implements OnInit {
           this.averageRqstWaitTime = Number((this.totalRqstWaitTime / count).toFixed(2));
           this.totalRqstWaitTime = Number(this.totalRqstWaitTime.toFixed(2));
         }
+        else{
+          this.totalRqstWaitTime = null;
+          this.averageRqstWaitTime = null;
+          alert("Sorry, request wait time is not applicable here!");
+        }
     }
     catch(e){
       this.handleError(e.message);
@@ -284,6 +302,11 @@ export class ArchiveComponent implements OnInit {
         if(count > 0){
           this.averageBlockTime = Number((this.totalBlockTime / count).toFixed(2));
           this.totalBlockTime = Number(this.totalBlockTime.toFixed(2));
+        }
+        else{
+          this.totalBlockTime = null;
+          this.averageBlockTime = null;
+          alert("Sorry, network connection block time is not applicable here!");
         }
     }
     catch(e){
@@ -311,6 +334,11 @@ export class ArchiveComponent implements OnInit {
           this.averageDnsTime = Number((this.totalDnsTime / count).toFixed(2));
           this.totalDnsTime = Number(this.totalDnsTime.toFixed(2));
         }
+        else{
+          this.totalDnsTime = null;
+          this.averageDnsTime = null;
+          alert("Sorry, DNS resolution time is not applicable here!");
+        }
     }
     catch(e){
       this.handleError(e.message);
@@ -328,7 +356,7 @@ export class ArchiveComponent implements OnInit {
         let count = 0;
         for(let i = 0; i < this.harLog.entries.length; i++){
           if(this.harLog.entries[i].timings.ssl >= 0){
-            this.totalSslTime += this.harLog.entries[i].timings.ssl;
+            this.totalSslTime += this.harLog.entries[i].timings.ssl;            
             count++;
           }
         }        
@@ -336,6 +364,11 @@ export class ArchiveComponent implements OnInit {
         if(count > 0){
           this.averageSslTime = Number((this.totalSslTime / count).toFixed(2));
           this.totalSslTime = Number(this.totalSslTime.toFixed(2));
+        }
+        else{
+          this.totalSslTime = null;
+          this.averageSslTime = null;
+          alert("Sorry, SSL/TLS negotiation time is not applicable here!");
         }
     }
     catch(e){
@@ -362,6 +395,11 @@ export class ArchiveComponent implements OnInit {
         if(count > 0){
           this.averageConnectTime = Number((this.totalConnectTime / count).toFixed(2));
           this.totalConnectTime = Number(this.totalConnectTime.toFixed(2));
+        }
+        else{
+          this.totalConnectTime = null;
+          this.averageConnectTime = null;
+          alert("Sorry, Creating TCP connection time is not applicable here!");
         }
     }
     catch(e){

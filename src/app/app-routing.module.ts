@@ -10,10 +10,10 @@ const routes: Routes = [
     path:'',
     component: ArchiveComponent
   },
-  {
+  /*{
     path:'analytics',
     component: AnalyticsComponent
-  },
+  },*/
   {
     path:'error',
     component: ErrorComponent

@@ -3,6 +3,7 @@ export class NameValue {
     value: string;
 
     constructor(){
-        
+        this.name = "";
+        this.value = "";
     }
 }

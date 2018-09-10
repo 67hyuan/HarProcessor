@@ -1,20 +1,22 @@
 <div>
-    <h3>Please upload a har file.</h3>
+    <h3>Please upload a HTTP har file.</h3>
     <form>
-      <input type="file" name="myInputFile" value="Input file value" (change)="onFileSelected($event)">      
+      <input type="file" name="myInputFile" value="Input file value" (change)="onFileSelected($event)" style="background: brown; color: aqua">
+      <span *ngIf="harLog">{{"HAR log version = " + harLog.version + "; Creator: " + harLog.creator.name + "; Creator Version: " + harLog.creator.version}}</span>
+      <br>
     </form>
     <br>
 </div>
 
-<div>
-  <table id="pageEntryMetric" *ngIf="harLog">
+<div *ngIf="harLog">
+  <table id="pageEntryMetric">
     <tr>
       <th>Metrics</th>
       <th>Total Time</th>
       <th>Average Time</th>
     </tr>
     <tr id="contentLoadTime">
-        <td><button type="button" (click)="calcPageContentLoadTime()">Content Load Time (ms)</button></td>
+        <td><button type="button" class="btn" (click)="calcPageContentLoadTime()">Content Load Time (ms)</button></td>
         <td><input type="text" [value]="totalPageContentLoadTime" readonly="readonly"></td>
         <td><input type="text" [value]="avgPageContentLoadTime" readonly="readonly"></td>
     </tr>
@@ -35,7 +37,7 @@
     </tr>
     <tr id="rqstWaitTime">
       <td><button type="button" (click)="calcWaitTime()">Request Waiting Time (ms)</button></td>
-      <td><input type="text" [value]="totalRqstSendTime" readonly="readonly"></td>
+      <td><input type="text" [value]="totalRqstWaitTime" readonly="readonly"></td>
       <td><input type="text" [value]="averageRqstWaitTime" readonly="readonly"></td>
     </tr>
     <tr id="blockTime">
@@ -50,8 +52,8 @@
     </tr>
     <tr id="sslTime">
         <td><button type="button" (click)="calcSslTime()">SSL/TLS Negotiation (ms)</button></td>
-        <td><input type="text" [value]="totalSslTime" *ngIf=" totalSslTime > 0" readonly="readonly"></td>
-        <td><input type="text" [value]="averageSslTime" *ngIf=" averageSslTime > 0" readonly="readonly"></td>
+        <td><input type="text" [value]="totalSslTime" readonly="readonly"></td>
+        <td><input type="text" [value]="averageSslTime" readonly="readonly"></td>
     </tr>    
     <tr id="connTime">
         <td><button type="button" (click)="calcConnectTime()">TCP Connection Time (ms)</button></td>
@@ -61,7 +63,7 @@
 
   </table>
 
-  <table *ngIf="harLog">
+  <table>
     <tr>
       <th>Metrics</th>
       <th>Calculation</th>
@@ -78,61 +80,64 @@
   </table> 
 </div>
 
-<div style="text-align:left;width:500px;" *ngIf="harLog">
-  <h3>
-      <span>{{"HAR log version = " + harLog.version + "; creator.name = " + harLog.creator.name + ". creator.version = " + harLog.creator.version}}</span><br>
-      <span>{{ "total pages: " + harLog.pages.length }}</span>
-  </h3>
+<div style="text-align:left" *ngIf="harLog">
+  <div *ngIf="harLog.pages !=null && harLog.pages.length > 0">
+    <h3>      
+        <span>{{ "Total pages: " + harLog.pages.length }}</span>
+    </h3>
+    <table>
+        <tr>
+            <th>Page Starte Time</th>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Content Load (ms)</th>
+            <th>Page Load (ms)</th>
+        </tr>
+        <tr *ngFor="let page of harLog.pages">
+            <td>{{page.startedDateTime}}</td>
+            <td>{{page.id}}</td>
+            <td>{{page.title}}</td>
+            <td>{{page.pageTimings.onContentLoad | number: '1.2-2'}}</td>
+            <td>{{page.pageTimings.onLoad | number: '1.2-2'}}</td>
+        </tr>
+    </table>
+  </div>
 
-  <table *ngIf="harLog.pages">
-      <tr>
-          <th>startedDateTime</th>
-          <th>ID</th>
-          <th>Title</th>
-          <th>ContentLoadTime</th>
-          <th>TotalLoadTime</th>
-      </tr>
-      <tr *ngFor="let page of harLog.pages">
-          <td>{{page.startedDateTime}}</td>
-          <td>{{page.id}}</td>
-          <td>{{page.title}}</td>
-          <td>{{page.pageTimings.onContentLoad}}</td>
-          <td>{{page.pageTimings.onLoad}}</td>
-      </tr>
-  </table>
-
-  <h3>
-    <span>{{ "Total entries: " + harLog.entries.length }}</span>
-  </h3>
-
-  <table *ngIf="harLog.entries">
+  <div *ngIf="harLog.entries !=null && harLog.entries.length > 0">
+    <h3>{{ "Total Request and Response Entries: " + harLog.entries.length }}</h3>
+    <table>
     <tr>
-      <th>Start Time</th>
-      <th>Total Time</th>
-      <th>Request Method</th>
+      <th>Entry Start Time</th>
+      <th>Total Time (ms)</th>
+      <th>Request Method</th>      
       <th>Response Status</th>
-      <th>Blocked</th>
-      <th>Dns</th>
-      <th>Ssl</th>
-      <th>Connect</th>
-      <th>Send</th>
-      <th>Wait</th>
-      <th>Receive</th>
-      <th>Blocked Que</th>
+      <th>Content Type</th>
+      <th>Content Size</th>
+      <th>Blocked (ms)</th>
+      <th>DNS (ms)</th>
+      <th>Ssl (ms)</th>
+      <th>Connect (ms)</th>
+      <th>Send (ms)</th>
+      <th>Wait (ms)</th>
+      <th>Receive (ms)</th>
+      <th>Blocked Queing (ms)</th>
     </tr>
     <tr *ngFor="let entry of harLog.entries">
       <td>{{entry.startedDateTime}}</td>
-      <td>{{entry.time}}</td>
+      <td>{{entry.time | number:'1.2-2'}}</td>
       <td>{{entry.request.method}}</td>
       <td>{{entry.response.status}}</td>
-      <td>{{entry.timings.blocked}}</td>
-      <td>{{entry.timings.dns}}</td>
-      <td>{{entry.timings.ssl}}</td>
-      <td>{{entry.timings.connect}}</td>
-      <td>{{entry.timings.send}}</td>
-      <td>{{entry.timings.wait}}</td>
-      <td>{{entry.timings.receive}}</td>
-      <td>{{entry.timings._blocked_queueing}}</td>
+      <td>{{entry.response.content.mimeType}}</td>
+      <td>{{entry.response.content.size}}</td>
+      <td>{{entry.timings.blocked | number:'1.2-2'}}</td>
+      <td>{{entry.timings.dns | number:'1.2-2'}}</td>
+      <td>{{entry.timings.ssl | number:'1.2-2'}}</td>
+      <td>{{entry.timings.connect | number:'1.2-2'}}</td>
+      <td>{{entry.timings.send | number:'1.2-2'}}</td>
+      <td>{{entry.timings.wait | number:'1.2-2'}}</td>
+      <td>{{entry.timings.receive | number:'1.2-2'}}</td>
+      <td>{{entry.timings._blocked_queueing | number:'1.2-2'}}</td>
     </tr>
   </table>
+  </div>
 </div>

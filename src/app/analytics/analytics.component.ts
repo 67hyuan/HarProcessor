@@ -1,3 +1,8 @@
+/*
+  For simplicity, all analytics calculations are done in Archive page, 
+  but you can move here if you want archive page just do simple things, e.g. introduction, uploading files, etc.
+*/
+
 import { Component, OnInit } from '@angular/core';
 
 @Component({
