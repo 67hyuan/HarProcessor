@@ -9,75 +9,122 @@
 </div>
 
 <div *ngIf="harLog">
-  <table id="pageEntryMetric">
-    <tr>
-      <th>Metrics</th>
-      <th>Total Time</th>
-      <th>Average Time</th>
-    </tr>
-    <tr id="contentLoadTime">
-        <td><button type="button" class="btn" (click)="calcPageContentLoadTime()">Content Load Time (ms)</button></td>
-        <td><input type="text" [value]="totalPageContentLoadTime" readonly="readonly"></td>
-        <td><input type="text" [value]="avgPageContentLoadTime" readonly="readonly"></td>
-    </tr>
-    <tr id="pageLoadTime">
-        <td><button type="button" (click)="calcPageLoadTime()">Page Load Time (ms)</button></td>
-        <td><input type="text" [value]="totalPageLoadTime" readonly="readonly"></td>
-        <td><input type="text" [value]="avgPageLoadTime" readonly="readonly"></td>
-    </tr>
-    <tr id="entryTime">
-      <td><button type="button" (click)="calcEntryTime()">Entry Time (ms)</button></td>
-      <td><input type="text" [value]="totalEntryTime" readonly="readonly"></td>
-      <td><input type="text" [value]="averageEntryTime" readonly="readonly"></td>
-    </tr>
-    <tr id="rqstSendTime">
-      <td><button type="button" (click)="calcRequestSendTime()">Request Send Time (ms)</button></td>
-      <td><input type="text" [value]="totalRqstSendTime" readonly="readonly"></td>
-      <td><input type="text" [value]="averageRqstSendTime" readonly="readonly"></td>
-    </tr>
-    <tr id="rqstWaitTime">
-      <td><button type="button" (click)="calcWaitTime()">Request Waiting Time (ms)</button></td>
-      <td><input type="text" [value]="totalRqstWaitTime" readonly="readonly"></td>
-      <td><input type="text" [value]="averageRqstWaitTime" readonly="readonly"></td>
-    </tr>
-    <tr id="blockTime">
-        <td><button type="button" (click)="calcBlockTime()">Connection Block Time (ms)</button></td>
-        <td><input type="text" [value]="totalBlockTime" readonly="readonly"></td>
-        <td><input type="text" [value]="averageBlockTime" readonly="readonly"></td>
-    </tr>
-    <tr id="dnsTime">
-        <td><button type="button" (click)="calcDnsTime()">DNS Resolution time (ms)</button></td>
-        <td><input type="text" [value]="totalDnsTime" readonly="readonly"></td>
-        <td><input type="text" [value]="averageDnsTime" readonly="readonly"></td>
-    </tr>
-    <tr id="sslTime">
-        <td><button type="button" (click)="calcSslTime()">SSL/TLS Negotiation (ms)</button></td>
-        <td><input type="text" [value]="totalSslTime" readonly="readonly"></td>
-        <td><input type="text" [value]="averageSslTime" readonly="readonly"></td>
-    </tr>    
-    <tr id="connTime">
-        <td><button type="button" (click)="calcConnectTime()">TCP Connection Time (ms)</button></td>
-        <td><input type="text" [value]="totalConnectTime" readonly="readonly"></td>
-        <td><input type="text" [value]="averageConnectTime" readonly="readonly"></td>
-    </tr>
+  <div>
+    <table id="pageEntryMetric">
+      <tr>
+        <th>Metrics</th>
+        <th>Total Time</th>
+        <th>Average Time</th>
+      </tr>
+      <tr id="contentLoadTime">
+          <td><button type="button" class="btn" (click)="calcPageContentLoadTime()">Content Load Time (ms)</button></td>
+          <td><input type="text" [value]="totalPageContentLoadTime" readonly="readonly"></td>
+          <td><input type="text" [value]="avgPageContentLoadTime" readonly="readonly"></td>
+      </tr>
+      <tr id="pageLoadTime">
+          <td><button type="button" (click)="calcPageLoadTime()">Page Load Time (ms)</button></td>
+          <td><input type="text" [value]="totalPageLoadTime" readonly="readonly"></td>
+          <td><input type="text" [value]="avgPageLoadTime" readonly="readonly"></td>
+      </tr>
+      <tr id="entryTime">
+        <td><button type="button" (click)="calcEntryTime()">Entry Time (ms)</button></td>
+        <td><input type="text" [value]="totalEntryTime" readonly="readonly"></td>
+        <td><input type="text" [value]="averageEntryTime" readonly="readonly"></td>
+      </tr>
+      <tr id="rqstSendTime">
+        <td><button type="button" (click)="calcRequestSendTime()">Request Send Time (ms)</button></td>
+        <td><input type="text" [value]="totalRqstSendTime" readonly="readonly"></td>
+        <td><input type="text" [value]="averageRqstSendTime" readonly="readonly"></td>
+      </tr>
+      <tr id="rqstWaitTime">
+        <td><button type="button" (click)="calcWaitTime()">Request Waiting Time (ms)</button></td>
+        <td><input type="text" [value]="totalRqstWaitTime" readonly="readonly"></td>
+        <td><input type="text" [value]="averageRqstWaitTime" readonly="readonly"></td>
+      </tr>
+      <tr id="blockTime">
+          <td><button type="button" (click)="calcBlockTime()">Connection Block Time (ms)</button></td>
+          <td><input type="text" [value]="totalBlockTime" readonly="readonly"></td>
+          <td><input type="text" [value]="averageBlockTime" readonly="readonly"></td>
+      </tr>
+      <tr id="dnsTime">
+          <td><button type="button" (click)="calcDnsTime()">DNS Resolution time (ms)</button></td>
+          <td><input type="text" [value]="totalDnsTime" readonly="readonly"></td>
+          <td><input type="text" [value]="averageDnsTime" readonly="readonly"></td>
+      </tr>
+      <tr id="sslTime">
+          <td><button type="button" (click)="calcSslTime()">SSL/TLS Negotiation (ms)</button></td>
+          <td><input type="text" [value]="totalSslTime" readonly="readonly"></td>
+          <td><input type="text" [value]="averageSslTime" readonly="readonly"></td>
+      </tr>    
+      <tr id="connTime">
+          <td><button type="button" (click)="calcConnectTime()">TCP Connection Time (ms)</button></td>
+          <td><input type="text" [value]="totalConnectTime" readonly="readonly"></td>
+          <td><input type="text" [value]="averageConnectTime" readonly="readonly"></td>
+      </tr>
 
-  </table>
+    </table>
+  </div>
 
-  <table>
-    <tr>
-      <th>Metrics</th>
-      <th>Calculation</th>
-    </tr>
-    <tr>
-      <td><button type="button" (click)="calcTotalResponseTime()">Total Response Time (ms)</button></td>
-      <td><input type="text" [value]="totalRspTime" readonly="readonly"></td>
-    </tr>    
-    <tr>
-        <td><button type="button" (click)="calcTotalUrLRedirect()">Total URL Redirect Count</button></td>
-        <td><input type="text" [value]="totalUrlRedirect" readonly="readonly"></td>
-    </tr>
+  <div>
+    <table>
+      <tr>
+        <th>Metrics</th>
+        <th>Calculation</th>
+      </tr>
+      <tr>
+        <td><button type="button" (click)="calcTotalResponseTime()">Total Response Time (ms)</button></td>
+        <td><input type="text" [value]="totalRspTime" readonly="readonly"></td>
+      </tr>    
+      <tr>
+          <td><button type="button" (click)="calcTotalUrLRedirect()">Total URL Redirect Count</button></td>
+          <td><input type="text" [value]="totalUrlRedirect" readonly="readonly"></td>
+      </tr>
+    </table>
+  </div>
 
-  </table> 
+  <div id="topDeList" *ngIf="harLog">
+      <form>
+        <input type="button" (click)="calcTopListToLoadResouce()" value="Top # longest resources loading time">
+        <span>please enter the number you want to display, then click the button: 
+              <input type="number" name="tnolt" [(ngModel)]="topNumOfLoadTime">
+        </span>
+        
+      </form>
+      <table *ngIf="dynamicEntries">
+        <tr>
+          <th>Entry Start Time</th>
+          <th>Total Time (ms)</th>
+          <th>Request Method</th>      
+          <th>Response Status</th>
+          <th>Content Type</th>
+          <th>Content Size</th>
+          <th>Blocked (ms)</th>
+          <th>DNS (ms)</th>
+          <th>Ssl (ms)</th>
+          <th>Connect (ms)</th>
+          <th>Send (ms)</th>
+          <th>Wait (ms)</th>
+          <th>Receive (ms)</th>
+          <th>Blocked Queing (ms)</th>
+        </tr>
+        <tr *ngFor="let entry of dynamicEntries">
+          <td>{{entry.startedDateTime}}</td>
+          <td>{{entry.time | number:'1.2-2'}}</td>
+          <td>{{entry.request.method}}</td>
+          <td>{{entry.response.status}}</td>
+          <td>{{entry.response.content.mimeType}}</td>
+          <td>{{entry.response.content.size}}</td>
+          <td>{{entry.timings.blocked | number:'1.2-2'}}</td>
+          <td>{{entry.timings.dns | number:'1.2-2'}}</td>
+          <td>{{entry.timings.ssl | number:'1.2-2'}}</td>
+          <td>{{entry.timings.connect | number:'1.2-2'}}</td>
+          <td>{{entry.timings.send | number:'1.2-2'}}</td>
+          <td>{{entry.timings.wait | number:'1.2-2'}}</td>
+          <td>{{entry.timings.receive | number:'1.2-2'}}</td>
+          <td>{{entry.timings._blocked_queueing | number:'1.2-2'}}</td>
+        </tr>
+      </table>
+  </div>
 </div>
 
 <div style="text-align:left" *ngIf="harLog">

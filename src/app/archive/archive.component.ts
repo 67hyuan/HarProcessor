@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { DataService } from '../data.service';
 import { ErrorService } from '../error.service';
 import { HarLog } from '../model/har-log';
+import { Entry } from '../model/entry';
 
 @Component({
   selector: 'app-archive',
@@ -14,6 +15,7 @@ import { HarLog } from '../model/har-log';
 export class ArchiveComponent implements OnInit {
   error: string = "";
   harLog: HarLog;
+  dynamicEntries: Array<Entry>;
 
   totalPageContentLoadTime: number; //Total page content load time
   avgPageContentLoadTime: number; //Average content load time per page
@@ -37,6 +39,7 @@ export class ArchiveComponent implements OnInit {
   averageConnectTime: number; //Average time required to create a TCP connection
 
   totalUrlRedirect: number; //Total URL redirect from the location response header
+  topNumOfLoadTime: number; //Top number of resources that took the longest to load
 
   constructor (private errSvc: ErrorService, private dataSvc: DataService, private router: Router) {
   }
@@ -101,11 +104,40 @@ export class ArchiveComponent implements OnInit {
           this.averageConnectTime = null;
 
           this.totalUrlRedirect = null;
+
+          if(this.dynamicEntries != null && this.dynamicEntries != undefined){
+            delete this.dynamicEntries;
+            this.dynamicEntries = null;
+          }
+
+          this.topNumOfLoadTime = null;
     }
     catch(e){
       this.handleError(e.message);
     }
 }
+
+  calcTopListToLoadResouce(){
+    try{
+        if(this.dynamicEntries != null && this.dynamicEntries != undefined){
+          this.dynamicEntries = null;
+        }
+        this.dynamicEntries = new Array<Entry>();
+
+        console.log("Before topNumOfLoadTime: " + this.topNumOfLoadTime);
+        this.harLog.entries.sort(function(a, b){return b.time - a.time});
+        if(this.topNumOfLoadTime > this.harLog.entries.length){
+          this.topNumOfLoadTime = this.harLog.entries.length;
+        }
+        console.log("After topNumOfLoadTime: " + this.topNumOfLoadTime);
+        for (let i = 0; i < this.topNumOfLoadTime; i++){
+            this.dynamicEntries.push(this.harLog.entries[i]);
+        }
+    }
+    catch(e){
+      this.handleError(e.message);
+    }
+  }
 
   /*
   //Calculate page content load time
