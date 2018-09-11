@@ -83,12 +83,24 @@
   </div>
 
   <div id="topDeList" *ngIf="harLog">
-      <form>
-        <input type="button" class="iputbtn" (click)="calcTopListToLoadResouce()" value="Top # longest resources loading time">
-        <span>please enter the number you want to display, then click the button: 
-              <input type="number" name="tnolt" [(ngModel)]="topNumOfLoadTime">
-        </span>
-        
+      <form #metricForm="ngForm" (ngSubmit)="onMetricFormSubmit(metricForm)">        
+        <table>
+          <tr>
+            <td>
+              <select name="metricSelection" [ngModel]="metricOptions" #metricSelection="ngModel">
+                <option *ngFor="let metricOption of metricOptions" [ngValue]="metricOption.value" >{{metricOption.name}}</option>>            
+              </select>
+            </td>
+            <td>
+              <span>please enter # to display, then click the "Submit" button:
+                <input type="number" name="topNum" [(ngModel)]="topNumOfLoadTime">
+              </span>
+            </td>
+            <td>
+              <button>Submit</button>
+            </td>
+          </tr> 
+        </table>     
       </form>
       <table *ngIf="dynamicEntries">
         <tr>

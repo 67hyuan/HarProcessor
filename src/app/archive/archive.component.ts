@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {Form, NgForm} from '@angular/forms';
 
 import { DataService } from '../data.service';
 import { ErrorService } from '../error.service';
 import { HarLog } from '../model/har-log';
 import { Entry } from '../model/entry';
+import { NameValue } from '../model/namevalue';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-archive',
@@ -16,6 +19,8 @@ export class ArchiveComponent implements OnInit {
   error: string = "";
   harLog: HarLog;
   dynamicEntries: Array<Entry>;
+  metricOptions: Array<NameValue> = [{name: "Top # longest Resouce load time", value: "resouceTime"}, {name: "Top # longest image load time", value: "imageTime"},
+  {name: "Top # longest 'GET' time", value: "getTime"}, {name: "Top # longest 'POST' time", value: "postTime"}];
 
   totalPageContentLoadTime: number; //Total page content load time
   avgPageContentLoadTime: number; //Average content load time per page
@@ -117,26 +122,62 @@ export class ArchiveComponent implements OnInit {
     }
 }
 
-  calcTopListToLoadResouce(){
-    try{
+/*
+//Calculate user selected metrics
+*/
+onMetricFormSubmit(form: NgForm){
+  try{      
+      if(form.valid && form.controls['metricSelection'] != null){
         if(this.dynamicEntries != null && this.dynamicEntries != undefined){
           this.dynamicEntries = null;
         }
         this.dynamicEntries = new Array<Entry>();
+        let tmpEntries = new Array<Entry>();
 
-        this.harLog.entries.sort(function(a, b){return b.time - a.time});
-        if(this.topNumOfLoadTime > this.harLog.entries.length){
-          this.topNumOfLoadTime = this.harLog.entries.length;
+        let val = form.controls['metricSelection'].value.toString();
+        switch(val){
+          case "resouceTime":
+            tmpEntries = this.harLog.entries;            
+            break;
+          case "imageTime":
+            this.harLog.entries.forEach(function(entry){
+              if(entry.response.content.mimeType != null && entry.response.content.mimeType != undefined && entry.response.content.mimeType.startsWith("image/")){
+                tmpEntries.push(entry);
+              }
+            });            
+            break;
+          case "getTime":
+            this.harLog.entries.forEach(function(entry){
+              if(entry.request.method != null && entry.request.method != undefined && entry.request.method == "GET"){
+                tmpEntries.push(entry);
+              }
+            }); 
+            break;
+          case "postTime":
+            this.harLog.entries.forEach(function(entry){
+              if(entry.request.method != null && entry.request.method != undefined && entry.request.method == "POST"){
+                tmpEntries.push(entry);
+              }
+            });
+            break;
+          default:
+            console.log("not a valid selection.");
+            return;
         }
         
-        for (let i = 0; i < this.topNumOfLoadTime; i++){
-            this.dynamicEntries.push(this.harLog.entries[i]);
+        tmpEntries.sort(function(a, b){return b.time - a.time});
+        if(this.topNumOfLoadTime > tmpEntries.length){
+            this.topNumOfLoadTime = tmpEntries.length;
         }
-    }
-    catch(e){
-      this.handleError(e.message);
-    }
+        for (let i = 0; i < this.topNumOfLoadTime; i++){
+             this.dynamicEntries.push(tmpEntries[i]);
+        }        
+      }
   }
+  catch(e){
+    this.handleError(e.message);
+  }
+}
 
   /*
   //Calculate page content load time

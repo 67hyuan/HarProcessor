@@ -19,7 +19,7 @@ import { ErrorService } from './error.service';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule,
+    FormsModule,    
   ],
   providers: [ErrorService],
   bootstrap: [AppComponent]
